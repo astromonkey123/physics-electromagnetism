@@ -12,9 +12,9 @@ const μ₀ = 1.25663706127e-6 # Permeability of space
 # Simulation parameters
 const dt = 1e-9 # Simulation time step
 const steps = 250 # Simulation step number
-const extent_x = 10 # Simualtion size
-const extent_y = 10
-const extent_z = 10
+const extent_x = 15 # Simualtion size
+const extent_y = 15
+const extent_z = 15
 const xs = [i for i in -extent_x:extent_x]; const ys = [i for i in -extent_y:extent_y]; const zs = [i for i in -extent_z:extent_z] # Simulation spatial bounds
 
 using CalculusWithJulia
@@ -216,47 +216,39 @@ for t in 0:dt:(steps*dt)
     # Ampere's law
     electric_field += magnetic_curl * dt * (1/ϵ₀) * (1/μ₀)
 
-    # electric_field_display = [Vec3f(0, 0, 0) for x in xs for y in ys for z in zs] # Vector field
-    # for i in eachindex(electric_field)
-    #     if i % (2 * extent_z + 1) == extent_z + 1
-    #         electric_field_display[i] = Vec3f(0, 0, electric_field[i][3])
-    #     end
-    # end
+    electric_field_display = [Vec3f(0, 0, 0) for x in xs for y in ys for z in zs] # Vector field
+    for i in eachindex(electric_field)
+        if i % (2 * extent_z + 1) == extent_z + 1
+            electric_field_display[i] = Vec3f(0, 0, electric_field[i][3])
+        end
+    end
 
-    # magnetic_field_display = [Vec3f(0, 0, 0) for x in xs for y in ys for z in zs] # Vector field
-    # for i in eachindex(magnetic_field)
-    #     if i % (2 * extent_z + 1) == extent_z + 1
-    #         magnetic_field_display[i] = Vec3f(magnetic_field[i][1], magnetic_field[i][2], 0)
-    #     end
-    # end
+    magnetic_field_display = [Vec3f(0, 0, 0) for x in xs for y in ys for z in zs] # Vector field
+    for i in eachindex(magnetic_field)
+        if i % (2 * extent_z + 1) == extent_z + 1
+            magnetic_field_display[i] = Vec3f(magnetic_field[i][1], magnetic_field[i][2], 0)
+        end
+    end
 
-    # electric_field_lengths = norm.(electric_field_display)
-    # electric_field_colors = [RGBAf(1, 0.2, 0.2, 1) for l in electric_field_lengths]
+    electric_field_lengths = norm.(electric_field_display)
+    electric_field_colors = [RGBAf(1, 0.2, 0.2, 1) for l in electric_field_lengths]
 
-    # magnetic_field_lengths = norm.(magnetic_field_display)
-    # magnetic_field_colors = [RGBAf(0.2, (l * 1e10) - 0.75, 1, 1) for l in magnetic_field_lengths]
+    magnetic_field_lengths = norm.(magnetic_field_display)
+    magnetic_field_colors = [RGBAf(0.2, (l * 1e10) - 0.75, 1, 1) for l in magnetic_field_lengths]
 
-    # for i in eachindex(electric_field_display)
-    #     electric_field_display[i] *= 1/electric_field_lengths[i]
-    # end
+    # electric_field_lengths = norm.(electric_field)
+    # electric_field_colors = [RGBAf(1, 0.2, 0.2, l - 0.25) for l in electric_field_lengths]
 
-    # for i in eachindex(magnetic_field_display)
-    #     magnetic_field_display[i] *= 1/magnetic_field_lengths[i]
-    # end
-
-    electric_field_lengths = norm.(electric_field)
-    electric_field_colors = [RGBAf(1, 0.2, 0.2, l - 0.25) for l in electric_field_lengths]
-
-    magnetic_field_lengths = norm.(magnetic_field)
-    magnetic_field_colors = [RGBAf(0.2, (l * 1e9) - 0.25, 1, (l * 1e9) - 0.25) for l in magnetic_field_lengths]
+    # magnetic_field_lengths = norm.(magnetic_field)
+    # magnetic_field_colors = [RGBAf(0.2, (l * 1e9) - 0.25, 1, (l * 1e9) - 0.25) for l in magnetic_field_lengths]
 
     empty!(ax)
 
-    # arrows!(ax, points, electric_field_display, color=electric_field_colors, lengthscale=500, linewidth=0.05, arrowsize = Vec3f(0.05, 0.05, 0.05))
-    # arrows!(ax, points, magnetic_field_display, color=magnetic_field_colors, lengthscale=5e10, linewidth=0.05, arrowsize = Vec3f(0.05, 0.05, 0.05))
+    arrows!(ax, points, electric_field_display, color=electric_field_colors, lengthscale=100, linewidth=0.05, arrowsize = Vec3f(0.05, 0.05, 0.05))
+    arrows!(ax, points, magnetic_field_display, color=magnetic_field_colors, lengthscale=5e10, linewidth=0.05, arrowsize = Vec3f(0.05, 0.05, 0.05))
 
-    arrows!(ax, points, electric_field, color=electric_field_colors, lengthscale=0.5, linewidth=0.05, arrowsize = Vec3f(0.1, 0.1, 0.1))
-    arrows!(ax, points, magnetic_field, color=magnetic_field_colors, lengthscale=5e8, linewidth=0.05, arrowsize = Vec3f(0.1, 0.1, 0.1))
+    # arrows!(ax, points, electric_field, color=electric_field_colors, lengthscale=0.5, linewidth=0.05, arrowsize = Vec3f(0.1, 0.1, 0.1))
+    # arrows!(ax, points, magnetic_field, color=magnetic_field_colors, lengthscale=5e8, linewidth=0.05, arrowsize = Vec3f(0.1, 0.1, 0.1))
 
     for point_charge in charge_list
         scatter!(ax, point_charge.x(t)[1], point_charge.x(t)[2], point_charge.x(t)[3], color=:white)
