@@ -59,18 +59,16 @@ end
 # Position functions
 function x1(t)
     t < 0 ? t = 0 : t = t
-    # [2*cos(0.25*c*t), 2*sin(0.25*c*t)]
-    [2*cos(0.25*c*t), 0]
+    [2*cos(0.25*c*t), 2*sin(0.25*c*t)]
 end 
 
 function x2(t)
     t < 0 ? t = 0 : t = t
-    # [2*cos(0.25*c*t + π), 2*sin(0.25*c*t + π)]
-    [0, 0]
+    [2*cos(0.25*c*t + π), 2*sin(0.25*c*t + π)]
 end 
 
 # Point charge instances
-pc_1 = PointCharge(x1, Observable(x1(0)[1]), Observable(x1(0)[2]), -1.0)
+pc_1 = PointCharge(x1, Observable(x1(0)[1]), Observable(x1(0)[2]), 1.0)
 pc_2 = PointCharge(x2, Observable(x2(0)[1]), Observable(x2(0)[2]), 1.0)
 
 charge_list = [pc_1, pc_2]
@@ -143,7 +141,7 @@ E_colors = Observable([RGBf(0, 0, 0) for _ in eachindex(xs) for _ in eachindex(y
 E = ElectricField(time=0)
 
 # Plot divergence and curl
-divergence = heatmap!(ax, xs, ys, E.div, colormap=:tofino, colorrange=(-1, 1), alpha=1, interpolate=false)
+divergence = heatmap!(ax, xs, ys, E.div, colormap=:tofino, colorrange=(-1, 1), alpha=1, interpolate=true)
 # curl = heatmap!(ax, xs, ys, E.curl, colormap=:tofino, colorrange=(-1, 1), alpha=1, interpolate=true)
 
 # Plot the electric field

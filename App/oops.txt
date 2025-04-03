@@ -1,0 +1,26 @@
+Order of Operations (OOps)
+
+On each tick (time step) we need to generate new magnetic and electric fields.
+
+1. Move the electric and magnetic fields stored in the current variables to the
+    locations for the fields from the previous time steps
+
+2. Generation of the electric field
+    - Use Coulumb's Law to find the electric field based on the locations of point charges
+    - Use Ampere's Law to find the time derivative of the electric field from the curl
+        of the magnetic field in the previous time step and integrate
+    - Save as the current electric field
+
+3. Generation of the magnetic field
+    - Initial magnetic field is 0
+    - Use Faraday's Law to find the time derivative of the magnetic field from the curl
+        of the electric field in the previous time step and integrate
+    - Use a Helmholtz Decomposition to ensure a divergence-free vector field
+    - Save as the current magnetic field
+
+Because we are using the curl of the previous electric and magnetic fields when generating
+the next iteration, we need to somehow store the previous iteration's fields, so that
+we have two electric fields and two magnetic fields (one of each for the current time step
+and another of each from the previous time step)
+
+So we have all four stored outside the time loop and then be updated as we advance in time

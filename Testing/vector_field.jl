@@ -22,14 +22,15 @@ curl = [(∇×G)(x, y) for x in xs, y in ys]
 
 fig = Figure()
 ax = Axis(fig[1, 1], limits=(xs[begin], xs[end], ys[begin], ys[end]))
+set_theme!(theme_black())
 
 # div_map = heatmap!(ax, xs, ys, transpose(div), colormap=:magma, interpolate=true)
-curl_map = heatmap!(ax, xs, ys, transpose(curl), colormap=:magma, interpolate=true)
+# curl_map = heatmap!(ax, xs, ys, transpose(curl), colormap=:magma, interpolate=true)
 
 arrows!(ax, points, vectors, lengthscale=0.2, color=:white)
 
 # streamplot!(ax, h, xs, ys, colormap=:magma)
 
-Colorbar(fig[2, 1], div_map, vertical=false)
+# Colorbar(fig[2, 1], div_map, vertical=false)
 
 fig
