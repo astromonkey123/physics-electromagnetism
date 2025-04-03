@@ -1,5 +1,7 @@
 # electromagnetism
-Simulation of electromagnetic waves written with Julia. Many of the files here are reduntant, as it is a live reflection of my progress in testing and refining the program.
+Simulation of electromagnetic waves written with Julia.
+
+Many of the files here are reduntant, as it is a live reflection of my progress in testing and refining the program.
 The most useful are **App/2d_sim.jl** and **App/3d_sim.jl**, for runs in 2D and 3D respectively. I will document my general method here.
 
 ## Method
