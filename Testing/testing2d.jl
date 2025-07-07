@@ -10,8 +10,8 @@ function normalize(u, v, norm)
     u_norm = zeros(50, 50)
     v_norm = zeros(50, 50)
 
-    for i in 1:length(u)
-        for j in 1:length(u[i])
+    for i in eachindex(u)
+        for j in eachindex(u[i])
             u_index = u[i][j]
             v_index = v[i][j]
             radius = hypot(u_index, v_index)

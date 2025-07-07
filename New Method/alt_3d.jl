@@ -35,9 +35,9 @@ const c = 299792458 # Speed of light
 
 # Simulation parameters
 const dt = 7.5e-10 # Time step 
-const steps = 500 # Number of steps
-max = 20
-min = -20
+const steps = 300 # Number of steps
+max = 10
+min = -10
 step = 2
 const xs = [i for i in min:step:max]; const ys = [i for i in min:step:max]; const zs = [i for i in min:step:max] # Spatial bounds
 
@@ -119,7 +119,7 @@ function animate()
     points = [Point3f(x, y, z) for x in xs, y in ys, z in zs] # Points for the vectors
 
     # Point charge instances and charge list
-    charge_list = [pointCharge(t -> [5*cos(0.15*c*t), 0, 0], 1.0)]
+    charge_list = [pointCharge(t -> [5*cos(0.15*c*t), 5*sin(0.15*c*t), 0], 1.0)]
 
     for t in 0:dt:(steps * dt)
         E, B = generate_fields(t, charge_list) # Generate the electromagnetic field
@@ -133,7 +133,7 @@ function animate()
 
         # Colors for B
         B_lengths = [hypot(vector...) for vector in B]
-        avg_B_length = median(B_lengths) / 1
+        avg_B_length = median(B_lengths) / 20
         B_lengths = [length / avg_B_length for length in B_lengths]
         B_colors = [RGBAf(0, l/500, l/100, l - 50) for l in B_lengths]
         B_display = [Vec3f(v/hypot(v...)) for v in B]
